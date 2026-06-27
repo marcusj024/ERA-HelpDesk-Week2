@@ -224,7 +224,7 @@ app.post("/tickets", async (req, res) => {
                         user_id: submitted_by,
                         ticket_id: newTicketId,
                         details: `ticket created: ${title}`,
-                        Timestamp: new Date()
+                        timestamp: new Date()
                     });
             } catch (mongoError) {
                 console.error("failed to log activity", mongoError);
@@ -270,7 +270,7 @@ app.post('/activity-logs', async (req, res) => {
             user_id: user_id || null,
             ticket_id: ticket_id || null,
             details: details,
-            Timestamp: new Date()
+            timestamp: new Date()
         });
         res.status(201).json({message: "activity log created", logId: result.insertedId});
     } catch (error) {
@@ -303,7 +303,7 @@ app.post('/login', async (req, res) => {
             const mongoDb = getMongo();
             await mongoDb.collection('activity_logs').insertOne({
         action: 'user_login', user_id: user.id, ticket_id: null, details: `${user.first_name} ${user.last_name} logged in as ${user.role}`,
-        Timestamp: new Date()
+        timestamp: new Date()
      });
         } catch(mongoError) {
             console.error('failed to log login activity: ', mongoError);
